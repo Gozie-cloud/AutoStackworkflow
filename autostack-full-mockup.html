@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoStack — Full Platform Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080808;
+  --bg2: #0f0f0f;
+  --bg3: #161616;
+  --bg4: #1c1c1c;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --border3: rgba(255,255,255,0.2);
+  --accent: #C8F542;
+  --accent2: #a8d424;
+  --accent-dim: rgba(200,245,66,0.08);
+  --accent-border: rgba(200,245,66,0.2);
+  --text: #f0f0f0;
+  --text2: #999;
+  --text3: #555;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; line-height: 1.1; }
+
+/* SCREEN NAV */
+.screen-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(8,8,8,0.95); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+}
+.screen-nav::-webkit-scrollbar { display: none; }
+.snav-btn {
+  padding: 1rem 1.25rem; font-size: 12px; font-weight: 500;
+  color: var(--text3); background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer;
+  white-space: nowrap; transition: color 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.snav-btn:hover { color: var(--text2); }
+.snav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.snav-sep { width: 1px; height: 16px; background: var(--border2); flex-shrink: 0; margin: 0 4px; }
+
+/* SCREENS */
+.screen { display: none; padding-top: 49px; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ===================== LANDING ===================== */
+nav.site {
+  position: sticky; top: 49px; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 4rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,8,8,0.9); backdrop-filter: blur(16px);
+}
+.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--accent); color: #080808;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+  padding: 0.5rem 1.2rem; border-radius: 6px; text-decoration: none;
+  cursor: pointer; border: none; transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--accent2); }
+
+/* HERO */
+.hero {
+  min-height: 90vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 4rem;
+  position: relative; overflow: hidden;
+}
+.hero-glow {
+  position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse, rgba(200,245,66,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent-dim); border: 1px solid var(--accent-border);
+  color: var(--accent); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+.hero h1 {
+  font-size: clamp(3.2rem, 9vw, 7rem); font-weight: 800;
+  letter-spacing: -0.035em; line-height: 0.95; margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  font-size: 1.05rem; color: var(--text2); max-width: 500px;
+  line-height: 1.75; margin-bottom: 2.5rem;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-btns { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
+.btn-p {
+  background: var(--accent); color: #080808;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+  padding: 0.85rem 2rem; border-radius: 8px; text-decoration: none;
+  border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-p:hover { background: var(--accent2); transform: translateY(-2px); }
+.btn-s { font-size: 14px; color: var(--text2); text-decoration: none; cursor: pointer; background: none; border: none; transition: color 0.2s; }
+.btn-s:hover { color: var(--text); }
+.hero-stats { display: flex; align-items: center; gap: 2.5rem; margin-top: 4rem; animation: fadeUp 0.6s 0.4s ease both; }
+.hstat { text-align: center; }
+.hstat-n { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; }
+.hstat-l { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.hdiv { width: 1px; height: 36px; background: var(--border2); }
+
+/* TICKER */
+.ticker-wrap { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); padding: 0.7rem 0; }
+.ticker { display: flex; gap: 3rem; animation: ticker 28s linear infinite; width: max-content; }
+.ticker-item { display: flex; align-items: center; gap: 10px; white-space: nowrap; font-size: 12px; color: var(--text2); }
+.ticker-item strong { color: var(--accent); font-family: 'Syne', sans-serif; }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* SECTIONS */
+.sec { position: relative; }
+.sec-inner { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
+.sec-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+.sec-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 1rem; }
+.sec-sub { font-size: 1rem; color: var(--text2); max-width: 500px; line-height: 1.75; }
+
+/* FEATURES GRID */
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 3rem; }
+.feat-card { background: var(--bg2); padding: 2rem; transition: background 0.2s; }
+.feat-card:hover { background: var(--bg3); }
+.feat-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-dim); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 1.25rem; }
+.feat-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+.feat-card p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* COURSE */
+.course-step { display: grid; grid-template-columns: 72px 1fr; gap: 1.5rem; padding: 2rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+.course-step:last-child { border-bottom: none; }
+.step-n { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--border2); line-height: 1; }
+.step-tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); padding: 3px 8px; border-radius: 4px; margin-bottom: 0.5rem; }
+.step-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+.step-content p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* LEADERBOARD */
+.lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 3rem; }
+.lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; transition: border-color 0.2s; }
+.lb-row:hover { border-color: var(--border2); }
+.lb-row.top { border-color: var(--accent-border); background: var(--accent-dim); }
+.lb-rank { font-size: 14px; font-weight: 800; width: 28px; text-align: center; font-family: 'Syne', sans-serif; }
+.lb-av { width: 34px; height: 34px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text2); }
+.lb-name { flex: 1; font-size: 13px; font-weight: 500; }
+.lb-loc { font-size: 11px; color: var(--text3); }
+.lb-amt { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: var(--accent); }
+.win-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+.win-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.win-av { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--accent); }
+.win-name { font-size: 13px; font-weight: 500; }
+.win-time { font-size: 11px; color: var(--text3); margin-left: auto; }
+.win-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.win-text strong { color: var(--accent); font-family: 'Syne', sans-serif; }
+
+/* PRICING */
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+.price-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
+.price-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+.price-card.featured { border-color: var(--accent-border); }
+.price-tier { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2); }
+.price-amt { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; line-height: 1; }
+.price-amt span { font-size: 14px; font-weight: 400; color: var(--text2); }
+.perks { display: flex; flex-direction: column; gap: 10px; }
+.perk { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); }
+.perk::before { content:'✓'; width:18px; height:18px; background: var(--accent-dim); color:var(--accent); font-size:10px; font-weight:700; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.price-btn { display:block; text-align:center; padding:0.85rem; border-radius:8px; font-family:'Syne',sans-serif; font-weight:700; font-size:14px; text-decoration:none; transition:all 0.2s; border:1px solid var(--border2); color:var(--text); background:transparent; cursor:pointer; }
+.price-btn:hover { background: var(--bg3); }
+.price-btn.accent { background:var(--accent); color:#080808; border-color:var(--accent); }
+.price-btn.accent:hover { background:var(--accent2); }
+
+/* CTA */
+.cta-sec { text-align:center; padding:6rem 2rem; position:relative; overflow:hidden; }
+.cta-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:400px; background:radial-gradient(ellipse, rgba(200,245,66,0.05) 0%, transparent 70%); pointer-events:none; }
+.cta-sec h2 { font-size:clamp(2.5rem, 5vw, 4rem); font-weight:800; letter-spacing:-0.03em; margin-bottom:1rem; }
+.cta-sec p { font-size:1rem; color:var(--text2); margin-bottom:2rem; }
+footer { border-top:1px solid var(--border); padding:2rem 4rem; display:flex; align-items:center; justify-content:space-between; }
+footer p { font-size:12px; color:var(--text3); }
+
+/* ===================== PLAN SELECTION ===================== */
+.plan-page { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+.plan-page h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.5rem; }
+.plan-page .sub { font-size: 1rem; color: var(--text2); margin-bottom: 3rem; }
+.plan-toggle { display: inline-flex; align-items: center; gap: 0; background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; padding: 4px; margin-bottom: 2.5rem; }
+.tog-btn { padding: 6px 18px; font-size: 13px; border-radius: 5px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; color: var(--text2); background: none; transition: all 0.2s; }
+.tog-btn.active { background: var(--bg3); color: var(--text); }
+.save-tag { font-size: 11px; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 2.5rem; }
+.plan-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; cursor: pointer; transition: all 0.2s; position: relative; }
+.plan-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.plan-card.selected { border: 2px solid var(--accent); }
+.popular-tag { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #080808; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; padding: 3px 12px; border-radius: 100px; white-space: nowrap; }
+.plan-name { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2); margin-bottom: 10px; }
+.plan-price { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.plan-price span { font-size: 13px; font-weight: 400; color: var(--text2); }
+.plan-desc { font-size: 13px; color: var(--text2); margin-bottom: 1.25rem; line-height: 1.5; }
+.plan-feats { display: flex; flex-direction: column; gap: 8px; }
+.plan-feat { font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 8px; }
+.plan-feat::before { content:'✓'; width:16px; height:16px; background:var(--accent-dim); color:var(--accent); font-size:9px; font-weight:700; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.checkout-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+.checkout-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; }
+.chk-row { display: flex; justify-content: space-between; font-size: 14px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.chk-row:last-of-type { border-bottom: none; font-weight: 500; }
+.chk-row.total { font-size: 16px; padding-top: 12px; }
+.pay-btn { width: 100%; padding: 1rem; background: var(--accent); color: #080808; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; border-radius: 8px; border: none; cursor: pointer; margin-top: 1.25rem; transition: background 0.2s; }
+.pay-btn:hover { background: var(--accent2); }
+.paystack-note { font-size: 11px; color: var(--text3); text-align: center; margin-top: 10px; }
+
+/* ===================== PAYMENT SCREEN ===================== */
+.payment-page { max-width: 480px; margin: 0 auto; padding: 4rem 2rem; }
+.pay-modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 20px; padding: 2rem; }
+.pay-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.pay-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.pay-logo span { color: var(--accent); }
+.pay-amount { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; }
+.pay-plan { font-size: 13px; color: var(--text2); margin-top: 4px; }
+.pay-field { margin-bottom: 16px; }
+.pay-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.pay-input { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
+.pay-input:focus { border-color: var(--accent-border); }
+.pay-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pay-secure { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: var(--text3); margin-top: 12px; }
+.pay-submit { width: 100%; padding: 1rem; background: var(--accent); color: #080808; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; border-radius: 8px; border: none; cursor: pointer; margin-top: 4px; transition: background 0.2s; }
+.pay-submit:hover { background: var(--accent2); }
+
+/* ===================== ONBOARDING ===================== */
+.ob-page { max-width: 520px; margin: 0 auto; padding: 4rem 2rem; }
+.ob-steps { display: flex; align-items: center; gap: 0; margin-bottom: 2.5rem; }
+.ob-step { display: flex; align-items: center; gap: 8px; }
+.ob-dot { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text3); font-family: 'Syne', sans-serif; transition: all 0.2s; }
+.ob-dot.done { background: var(--accent); color: #080808; border-color: var(--accent); font-size: 10px; }
+.ob-dot.active { background: var(--bg3); color: var(--text); border-color: var(--border3); }
+.ob-step-label { font-size: 12px; color: var(--text3); }
+.ob-step.active .ob-step-label { color: var(--text2); }
+.ob-line { flex: 1; height: 1px; background: var(--border); margin: 0 8px; min-width: 20px; }
+.ob-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; }
+.ob-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; text-align: center; margin-bottom: 1.5rem; }
+.ob-logo span { color: var(--accent); }
+.ob-title { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+.ob-sub { font-size: 14px; color: var(--text2); text-align: center; margin-bottom: 2rem; line-height: 1.6; }
+.ob-checklist { display: flex; flex-direction: column; gap: 14px; margin-bottom: 2rem; }
+.ob-check { display: flex; align-items: center; gap: 14px; }
+.ob-check-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-dim); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.ob-check-text { font-size: 14px; }
+.ob-check-sub { font-size: 12px; color: var(--text2); }
+.ob-field { margin-bottom: 14px; }
+.ob-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.ob-input { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
+.ob-input:focus { border-color: var(--accent-border); }
+.ob-select { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; }
+.ob-avs { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+.ob-av { width: 46px; height: 46px; border-radius: 50%; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
+.ob-av.picked { border-color: var(--accent); }
+.ob-btn { width: 100%; padding: 0.9rem; background: var(--accent); color: #080808; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.2s; }
+.ob-btn:hover { background: var(--accent2); }
+.ob-skip { width: 100%; padding: 8px; font-size: 13px; color: var(--text3); border: none; background: none; cursor: pointer; margin-top: 8px; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+.ob-skip:hover { color: var(--text2); }
+.ob-intro-box { background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+.ob-intro-ta { width: 100%; background: none; border: none; font-size: 13px; color: var(--text2); font-family: 'DM Sans', sans-serif; resize: none; outline: none; line-height: 1.6; }
+.ob-hint { font-size: 12px; color: var(--text3); margin-bottom: 1.5rem; }
+.ob-prog { display: flex; gap: 4px; margin-bottom: 1.75rem; }
+.ob-prog-seg { height: 3px; flex: 1; border-radius: 2px; background: var(--border2); }
+.ob-prog-seg.done { background: var(--accent); }
+.ob-success-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--accent-dim); border: 2px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 1.5rem; }
+.ob-next-ep { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; }
+.ob-ep-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--accent-dim); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.ob-btn-secondary { width: 100%; padding: 0.7rem; font-size: 13px; color: var(--text2); border: 1px solid var(--border2); background: none; border-radius: 8px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 8px; transition: all 0.2s; }
+.ob-btn-secondary:hover { border-color: var(--border3); color: var(--text); }
+
+/* ===================== DASHBOARD ===================== */
+.app-wrap { display: flex; min-height: calc(100vh - 49px); }
+.sidebar { width: 220px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 12px; display: flex; flex-direction: column; gap: 2px; position: sticky; top: 49px; height: calc(100vh - 49px); overflow-y: auto; }
+.sb-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; padding: 4px 10px; margin-bottom: 14px; }
+.sb-logo span { color: var(--accent); }
+.sb-sec { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); padding: 12px 10px 4px; }
+.sb-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+.sb-item:hover { background: var(--bg3); color: var(--text); }
+.sb-item.active { background: var(--bg3); color: var(--text); }
+.sb-item.active span { color: var(--accent); }
+.sb-icon { font-size: 16px; width: 20px; text-align: center; }
+.sb-notif { margin-left: auto; background: var(--accent); color: #080808; font-size: 10px; font-weight: 700; font-family: 'Syne', sans-serif; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.main-content { flex: 1; overflow-y: auto; }
+
+/* DASHBOARD HOME */
+.dash-home { padding: 2rem 2rem; max-width: 900px; }
+.dash-greeting { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.01em; }
+.dash-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.75rem; display: flex; align-items: center; gap: 10px; }
+.tier-badge { font-size: 11px; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); padding: 2px 10px; border-radius: 100px; font-weight: 500; }
+.dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.75rem; }
+.ds-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
+.ds-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.ds-val { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
+.ds-val.green { color: var(--accent); }
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.d-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 14px; }
+.d-card:last-child { margin-bottom: 0; }
+.d-card-title { font-size: 13px; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; }
+.d-card-link { font-size: 12px; color: var(--accent); font-weight: 400; cursor: pointer; }
+.prog-wrap { margin-bottom: 10px; }
+.prog-lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 5px; }
+.prog-bar { height: 5px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+.ep-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.ep-item:last-child { border-bottom: none; }
+.ep-n { font-size: 11px; color: var(--text3); width: 24px; }
+.ep-title { font-size: 13px; flex: 1; }
+.ep-status { font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+.ep-done { background: rgba(200,245,66,0.1); color: var(--accent); }
+.ep-now { background: rgba(56,130,221,0.1); color: #5DB6FF; }
+.ep-lock { color: var(--text3); }
+.lb-mini { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.lb-mini:last-child { border-bottom: none; }
+.lb-mini-pos { width: 20px; font-size: 12px; color: var(--text3); }
+.lb-mini-name { flex: 1; }
+.lb-mini-amt { font-weight: 600; color: var(--accent); font-family: 'Syne', sans-serif; font-size: 12px; }
+.you-tag { font-size: 10px; background: var(--accent-dim); color: var(--accent); padding: 1px 6px; border-radius: 3px; margin-left: 4px; }
+.activity-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.activity-item:last-child { border-bottom: none; }
+.act-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 5px; flex-shrink: 0; }
+.act-text { flex: 1; color: var(--text2); line-height: 1.5; }
+.act-text strong { color: var(--text); font-weight: 500; }
+.act-time { font-size: 11px; color: var(--text3); flex-shrink: 0; }
+
+/* COMMUNITY */
+.comm-wrap { display: grid; grid-template-columns: 1fr 280px; gap: 0; height: calc(100vh - 49px); }
+.comm-feed { padding: 1.5rem; overflow-y: auto; border-right: 1px solid var(--border); }
+.comm-sidebar { padding: 1.5rem; overflow-y: auto; }
+.comm-post { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 12px; transition: border-color 0.2s; }
+.comm-post:hover { border-color: var(--border2); }
+.comm-post.win { border-color: var(--accent-border); }
+.cp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.cp-av { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+.cp-name { font-size: 13px; font-weight: 500; flex: 1; }
+.cp-time { font-size: 11px; color: var(--text3); }
+.cp-win-badge { font-size: 10px; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); padding: 2px 7px; border-radius: 4px; }
+.cp-text { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+.cp-text strong { color: var(--accent); font-family: 'Syne', sans-serif; }
+.cp-actions { display: flex; gap: 16px; }
+.cp-act { font-size: 12px; color: var(--text3); cursor: pointer; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+.cp-act:hover { color: var(--text2); }
+.comm-input-wrap { border-top: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; gap: 10px; }
+.comm-input { flex: 1; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; }
+.comm-input:focus { border-color: var(--accent-border); }
+.comm-post-btn { background: var(--accent); color: #080808; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; padding: 0 18px; border-radius: 8px; border: none; cursor: pointer; }
+.cs-title { font-size: 12px; font-weight: 600; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+.cs-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<!-- SCREEN NAV -->
+<div class="screen-nav">
+  <button class="snav-btn active" onclick="showScreen('landing', this)">① Landing page</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('pricing', this)">② Choose a plan</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('payment', this)">③ Payment</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('ob1', this)">④ Welcome</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('ob2', this)">⑤ Setup profile</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('ob3', this)">⑥ Intro post</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('ob4', this)">⑦ Start learning</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('dashboard', this)">⑧ Dashboard</button>
+  <div class="snav-sep"></div>
+  <button class="snav-btn" onclick="showScreen('community', this)">⑨ Community</button>
+</div>
+
+<!-- =================== SCREEN 1: LANDING =================== -->
+<div class="screen active" id="screen-landing">
+  <nav class="site">
+    <div class="logo">Auto<span>Stack</span></div>
+    <div class="nav-links">
+      <a href="#">The course</a>
+      <a href="#">Community</a>
+      <a href="#">Pricing</a>
+    </div>
+    <button class="nav-cta" onclick="showScreen('pricing', document.querySelectorAll('.snav-btn')[1])">Join now →</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">Founding members open now</div>
+    <h1>Build income<br>with <em>AI automation</em></h1>
+    <p class="hero-sub">From zero to a working AI automation business. Learn the systems, find the clients, close the deals — alongside people doing it right now.</p>
+    <div class="hero-btns">
+      <button class="btn-p" onclick="showScreen('pricing', document.querySelectorAll('.snav-btn')[1])">Join the community →</button>
+      <button class="btn-s">See what's inside ↓</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">6</div><div class="hstat-l">Course modules</div></div>
+      <div class="hdiv"></div>
+      <div class="hstat"><div class="hstat-n">Monthly</div><div class="hstat-l">Leaderboard reset</div></div>
+      <div class="hdiv"></div>
+      <div class="hstat"><div class="hstat-n">₦25k</div><div class="hstat-l">Starting from /mo</div></div>
+    </div>
+  </section>
+
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <div class="ticker-item">🏆 <strong>Chidi O.</strong> closed <strong>₦180,000</strong> this month &nbsp;·</div>
+      <div class="ticker-item">🔥 <strong>Amina K.</strong> landed her first automation client &nbsp;·</div>
+      <div class="ticker-item">💰 <strong>Tunde M.</strong> hit <strong>₦120,000</strong> in week 3 &nbsp;·</div>
+      <div class="ticker-item">⚡ <strong>Fatima D.</strong> built her first lead machine &nbsp;·</div>
+      <div class="ticker-item">🚀 <strong>Sola B.</strong> signed 2 retainer clients &nbsp;·</div>
+      <div class="ticker-item">🏆 <strong>Chidi O.</strong> closed <strong>₦180,000</strong> this month &nbsp;·</div>
+      <div class="ticker-item">🔥 <strong>Amina K.</strong> landed her first automation client &nbsp;·</div>
+      <div class="ticker-item">💰 <strong>Tunde M.</strong> hit <strong>₦120,000</strong> in week 3 &nbsp;·</div>
+      <div class="ticker-item">⚡ <strong>Fatima D.</strong> built her first lead machine &nbsp;·</div>
+      <div class="ticker-item">🚀 <strong>Sola B.</strong> signed 2 retainer clients &nbsp;·</div>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="sec-inner">
+      <div class="sec-tag">What you get</div>
+      <h2 class="sec-title">Not a course.<br>A whole ecosystem.</h2>
+      <p class="sec-sub">The course gets you started. The community keeps you growing. The leaderboard keeps you accountable.</p>
+      <div class="feat-grid">
+        <div class="feat-card"><div class="feat-icon">🎬</div><h3>Episode-based course</h3><p>New episodes drop regularly. Structured from AI basics all the way to a running automation business.</p></div>
+        <div class="feat-card"><div class="feat-icon">🏆</div><h3>Monthly leaderboard</h3><p>Top 10 earners ranked every month. Post your wins, climb the board, get recognized publicly.</p></div>
+        <div class="feat-card"><div class="feat-icon">💬</div><h3>Active community</h3><p>Ask questions, share tools, get feedback — from people at every stage of the journey.</p></div>
+        <div class="feat-card"><div class="feat-icon">💰</div><h3>Wins channel</h3><p>Members post closed deals. Real numbers, real people. This is your motivation and proof in one.</p></div>
+        <div class="feat-card"><div class="feat-icon">🚀</div><h3>Boost my post</h3><p>Drop your social link — the community rallies around it. Everyone's audience grows together.</p></div>
+        <div class="feat-card"><div class="feat-icon">🔄</div><h3>Constant updates</h3><p>AI moves fast. New tools, new strategies, new episodes — you never fall behind inside.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="background: var(--bg2);">
+    <div class="sec-inner">
+      <div class="sec-tag">The curriculum</div>
+      <h2 class="sec-title">From LLMs to<br>closed deals.</h2>
+      <p class="sec-sub">Every module is something you can execute and make money from immediately.</p>
+      <div style="margin-top: 3rem;">
+        <div class="course-step"><div class="step-n">01</div><div class="step-content"><span class="step-tag">Foundation</span><h3>Understanding LLMs & AI automation</h3><p>What LLMs actually are, how they work, and the exact automation opportunities hiding in plain sight.</p></div></div>
+        <div class="course-step"><div class="step-n">02</div><div class="step-content"><span class="step-tag">Lead generation</span><h3>Building your lead finding machine</h3><p>Automate finding potential clients at scale. By the end of this module you'll have a system feeding you leads daily.</p></div></div>
+        <div class="course-step"><div class="step-n">03</div><div class="step-content"><span class="step-tag">Systems</span><h3>Building automation systems</h3><p>Make, n8n, Zapier — build workflows, chatbots, and CRM systems that clients pay you monthly to maintain.</p></div></div>
+        <div class="course-step"><div class="step-n">04</div><div class="step-content"><span class="step-tag">Vibe coding</span><h3>Building websites with AI</h3><p>Use AI to build and ship websites fast. No CS degree needed. This is a service clients will pay you for.</p></div></div>
+        <div class="course-step"><div class="step-n">05</div><div class="step-content"><span class="step-tag">Client acquisition</span><h3>Finding businesses that need you</h3><p>A system to identify businesses losing money because of their online presence — and position yourself as the fix.</p></div></div>
+        <div class="course-step"><div class="step-n">06</div><div class="step-content"><span class="step-tag">Closing</span><h3>Outreach & sales system</h3><p>How to reach out, follow up, handle objections and close. A complete sales process from day one.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-inner">
+      <div class="sec-tag">Community proof</div>
+      <h2 class="sec-title">Real people.<br>Real numbers.</h2>
+      <p class="sec-sub">Every month the top earners are ranked. This is what keeps members accountable.</p>
+      <div class="lb-grid">
+        <div>
+          <div class="lb-row top"><div class="lb-rank">🥇</div><div class="lb-av">CO</div><div style="flex:1"><div class="lb-name">Chidi O.</div><div class="lb-loc">Lagos</div></div><div class="lb-amt">₦180,000</div></div>
+          <div class="lb-row top"><div class="lb-rank">🥈</div><div class="lb-av">AK</div><div style="flex:1"><div class="lb-name">Amina K.</div><div class="lb-loc">Abuja</div></div><div class="lb-amt">₦132,000</div></div>
+          <div class="lb-row top"><div class="lb-rank">🥉</div><div class="lb-av">TM</div><div style="flex:1"><div class="lb-name">Tunde M.</div><div class="lb-loc">Port Harcourt</div></div><div class="lb-amt">₦106,000</div></div>
+          <div class="lb-row"><div class="lb-rank" style="color:var(--text3);font-size:13px;">4</div><div class="lb-av">SB</div><div style="flex:1"><div class="lb-name">Sola B.</div><div class="lb-loc">Ibadan</div></div><div class="lb-amt">₦75,000</div></div>
+          <div class="lb-row"><div class="lb-rank" style="color:var(--text3);font-size:13px;">5</div><div class="lb-av">FD</div><div style="flex:1"><div class="lb-name">Fatima D.</div><div class="lb-loc">Kano</div></div><div class="lb-amt">₦51,000</div></div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;">Latest wins</p>
+          <div class="win-card"><div class="win-hd"><div class="win-av">CO</div><span class="win-name">Chidi O.</span><span class="win-time">2h ago</span></div><div class="win-text">Closed a restaurant in VI for a full website rebuild + automation. <strong>₦85,000</strong> upfront + ₦20k retainer monthly 🔥</div></div>
+          <div class="win-card"><div class="win-hd"><div class="win-av">AK</div><span class="win-name">Amina K.</span><span class="win-time">1d ago</span></div><div class="win-text">Lead machine from module 2 got me 3 replies in one day. Closed 1 already. <strong>₦60,000</strong> deal 💪</div></div>
+          <div class="win-card"><div class="win-hd"><div class="win-av">TM</div><span class="win-name">Tunde M.</span><span class="win-time">3d ago</span></div><div class="win-text">Week 3 inside and already hit <strong>₦120,000</strong> this month. The vibe coding module changed everything.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="pricing-sec" style="background: var(--bg2);">
+    <div class="sec-inner">
+      <div class="sec-tag">Membership</div>
+      <h2 class="sec-title">Pick your level.<br>Start today.</h2>
+      <p class="sec-sub">Cancel anytime. Just show up, do the work, and the results follow.</p>
+      <div class="price-grid">
+        <div class="price-card" onclick="showScreen('pricing', document.querySelectorAll('.snav-btn')[1])">
+          <div><div class="price-tier">Starter</div><div class="price-amt">₦25,000 <span>/mo</span></div></div>
+          <div class="perks"><div class="perk">All course episodes</div><div class="perk">Community access</div><div class="perk">Wins channel</div><div class="perk">Monthly leaderboard</div></div>
+          <button class="price-btn">Get started</button>
+        </div>
+        <div class="price-card featured" onclick="showScreen('pricing', document.querySelectorAll('.snav-btn')[1])">
+          <div><div class="price-tier" style="color:var(--accent)">Pro — most popular</div><div class="price-amt">₦45,000 <span>/mo</span></div></div>
+          <div class="perks"><div class="perk">Everything in Starter</div><div class="perk">Monthly live Q&A</div><div class="perk">Deal review calls</div><div class="perk">Early episode drops</div><div class="perk">Pro-only channel</div></div>
+          <button class="price-btn accent">Join Pro →</button>
+        </div>
+        <div class="price-card" onclick="showScreen('pricing', document.querySelectorAll('.snav-btn')[1])">
+          <div><div class="price-tier">Elite</div><div class="price-amt">₦90,000 <span>/mo</span></div></div>
+          <div class="perks"><div class="perk">Everything in Pro</div><div class="perk">Hot seat coaching</div><div class="perk">Private Elite channel</div><div class="perk">Direct founder access</div></div>
+          <button class="price-btn">Apply for Elite</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-sec">
+    <div class="cta-glow"></div>
+    <div class="sec-tag">Ready?</div>
+    <h2>Stop watching.<br>Start earning.</h2>
+    <p>The people on the leaderboard were beginners once. They just started.</p>
+    <button class="btn-p" style="font-size:16px;padding:1rem 2.5rem;" onclick="showScreen('pricing', document.querySelectorAll('.snav-btn')[1])">Join the community →</button>
+  </section>
+
+  <footer>
+    <div class="logo">Auto<span>Stack</span></div>
+    <p>© 2026 AutoStack. Built for Nigeria's next generation of automation entrepreneurs.</p>
+  </footer>
+</div>
+
+<!-- =================== SCREEN 2: PLAN SELECTION =================== -->
+<div class="screen" id="screen-pricing">
+  <div class="plan-page">
+    <div style="margin-bottom:2.5rem;">
+      <div class="sec-tag">Step 1 of 2 — choose your plan</div>
+      <h1>Pick your membership</h1>
+      <p class="sub">You can upgrade or downgrade anytime. Most people start with Pro.</p>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:2rem;">
+      <div class="plan-toggle">
+        <button class="tog-btn active">Monthly</button>
+        <button class="tog-btn">Yearly <span class="save-tag">Save 20%</span></button>
+      </div>
+    </div>
+    <div class="plan-grid">
+      <div class="plan-card" id="plan-starter" onclick="selectPlan('starter')">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">₦25,000 <span>/mo</span></div>
+        <div class="plan-desc">Everything you need to start and learn.</div>
+        <div class="plan-feats">
+          <div class="plan-feat">All course episodes</div>
+          <div class="plan-feat">Community access</div>
+          <div class="plan-feat">Wins channel</div>
+          <div class="plan-feat">Monthly leaderboard</div>
+        </div>
+      </div>
+      <div class="plan-card selected" id="plan-pro" onclick="selectPlan('pro')">
+        <div class="popular-tag">Most popular</div>
+        <div class="plan-name" style="color:var(--accent)">Pro</div>
+        <div class="plan-price">₦45,000 <span>/mo</span></div>
+        <div class="plan-desc">For people serious about making money fast.</div>
+        <div class="plan-feats">
+          <div class="plan-feat">Everything in Starter</div>
+          <div class="plan-feat">Monthly live Q&A</div>
+          <div class="plan-feat">Deal review calls</div>
+          <div class="plan-feat">Early episode drops</div>
+          <div class="plan-feat">Pro-only channel</div>
+        </div>
+      </div>
+      <div class="plan-card" id="plan-elite" onclick="selectPlan('elite')">
+        <div class="plan-name">Elite</div>
+        <div class="plan-price">₦90,000 <span>/mo</span></div>
+        <div class="plan-desc">Direct access. Maximum acceleration.</div>
+        <div class="plan-feats">
+          <div class="plan-feat">Everything in Pro</div>
+          <div class="plan-feat">Hot seat coaching</div>
+          <div class="plan-feat">Private Elite channel</div>
+          <div class="plan-feat">Direct founder access</div>
+          <div class="plan-feat">Referral network</div>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-box">
+      <h3>Order summary</h3>
+      <div class="chk-row"><span>AutoStack Pro — monthly</span><span>₦45,000</span></div>
+      <div class="chk-row"><span style="color:var(--text2)">Billed today</span><span style="color:var(--text2)">₦45,000</span></div>
+      <div class="chk-row total"><span>Total</span><span style="color:var(--accent);font-family:'Syne',sans-serif;">₦45,000</span></div>
+      <button class="pay-btn" onclick="showScreen('payment', document.querySelectorAll('.snav-btn')[2])">Continue to payment →</button>
+      <p class="paystack-note">🔒 Secured by Paystack · Cancel anytime · No hidden fees</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 3: PAYMENT =================== -->
+<div class="screen" id="screen-payment">
+  <div class="payment-page">
+    <div class="pay-modal">
+      <div class="pay-header">
+        <div class="pay-logo">Auto<span>Stack</span></div>
+        <div class="pay-amount">₦45,000</div>
+        <div class="pay-plan">Pro membership · billed monthly</div>
+      </div>
+      <div class="pay-field">
+        <div class="pay-label">Email address</div>
+        <input class="pay-input" type="email" placeholder="you@example.com" value="chidi@gmail.com">
+      </div>
+      <div class="pay-field">
+        <div class="pay-label">Card number</div>
+        <input class="pay-input" type="text" placeholder="0000 0000 0000 0000" value="5399 •••• •••• 4242">
+      </div>
+      <div class="pay-row2">
+        <div class="pay-field">
+          <div class="pay-label">Expiry</div>
+          <input class="pay-input" type="text" placeholder="MM / YY" value="08 / 28">
+        </div>
+        <div class="pay-field">
+          <div class="pay-label">CVV</div>
+          <input class="pay-input" type="text" placeholder="•••" value="•••">
+        </div>
+      </div>
+      <button class="pay-submit" onclick="showScreen('ob1', document.querySelectorAll('.snav-btn')[3])">Pay ₦45,000 →</button>
+      <div class="pay-secure">🔒 Secured by Paystack</div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 4: ONBOARDING WELCOME =================== -->
+<div class="screen" id="screen-ob1">
+  <div class="ob-page">
+    <div class="ob-steps">
+      <div class="ob-step active"><div class="ob-dot active">1</div><span class="ob-step-label">Welcome</span></div>
+      <div class="ob-line"></div>
+      <div class="ob-step"><div class="ob-dot">2</div><span class="ob-step-label">Profile</span></div>
+      <div class="ob-line"></div>
+      <div class="ob-step"><div class="ob-dot">3</div><span class="ob-step-label">Introduce</span></div>
+      <div class="ob-line"></div>
+      <div class="ob-step"><div class="ob-dot">4</div><span class="ob-step-label">Start</span></div>
+    </div>
+    <div class="ob-card">
+      <div class="ob-prog"><div class="ob-prog-seg done"></div><div class="ob-prog-seg"></div><div class="ob-prog-seg"></div><div class="ob-prog-seg"></div></div>
+      <div class="ob-logo">Auto<span>Stack</span></div>
+      <div class="ob-title">You're in. Welcome.</div>
+      <div class="ob-sub">You just made a decision most people won't. Here's what's waiting for you.</div>
+      <div class="ob-checklist">
+        <div class="ob-check"><div class="ob-check-icon">🎬</div><div><div class="ob-check-text">Full course — LLMs to closed deals</div><div class="ob-check-sub">Episodes unlock as you progress</div></div></div>
+        <div class="ob-check"><div class="ob-check-icon">🏆</div><div><div class="ob-check-text">Monthly leaderboard — top 10 earners</div><div class="ob-check-sub">Your name could be on it this month</div></div></div>
+        <div class="ob-check"><div class="ob-check-icon">💬</div><div><div class="ob-check-text">A community of people actually doing this</div><div class="ob-check-sub">Ask questions, share wins, grow together</div></div></div>
+      </div>
+      <button class="ob-btn" onclick="showScreen('ob2', document.querySelectorAll('.snav-btn')[4])">Let's set up your profile →</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 5: PROFILE SETUP =================== -->
+<div class="screen" id="screen-ob2">
+  <div class="ob-page">
+    <div class="ob-steps">
+      <div class="ob-step"><div class="ob-dot done">✓</div><span class="ob-step-label" style="color:var(--accent)">Welcome</span></div>
+      <div class="ob-line" style="background:var(--accent-border)"></div>
+      <div class="ob-step active"><div class="ob-dot active">2</div><span class="ob-step-label">Profile</span></div>
+      <div class="ob-line"></div>
+      <div class="ob-step"><div class="ob-dot">3</div><span class="ob-step-label">Introduce</span></div>
+      <div class="ob-line"></div>
+      <div class="ob-step"><div class="ob-dot">4</div><span class="ob-step-label">Start</span></div>
+    </div>
+    <div class="ob-card">
+      <div class="ob-prog"><div class="ob-prog-seg done"></div><div class="ob-prog-seg done"></div><div class="ob-prog-seg"></div><div class="ob-prog-seg"></div></div>
+      <div class="ob-title">Set up your profile</div>
+      <div class="ob-sub">This is how the community sees you.</div>
+      <div class="ob-avs">
+        <div class="ob-av picked">🦁</div><div class="ob-av">🐯</div><div class="ob-av">🦊</div><div class="ob-av">🐺</div><div class="ob-av">🦅</div><div class="ob-av">🐉</div>
+      </div>
+      <div class="ob-field"><div class="ob-label">Display name</div><input class="ob-input" type="text" placeholder="e.g. Chidi O." value="Chidi O."></div>
+      <div class="ob-field"><div class="ob-label">City / State</div><input class="ob-input" type="text" placeholder="e.g. Lagos" value="Lagos"></div>
+      <div class="ob-field"><div class="ob-label">Your goal for this month</div><select class="ob-select"><option>Close my first client</option><option>Hit ₦100,000</option><option>Build my first automation</option><option>Replace my salary</option></select></div>
+      <button class="ob-btn" onclick="showScreen('ob3', document.querySelectorAll('.snav-btn')[5])">Save and continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 6: INTRO POST =================== -->
+<div class="screen" id="screen-ob3">
+  <div class="ob-page">
+    <div class="ob-steps">
+      <div class="ob-step"><div class="ob-dot done">✓</div><span class="ob-step-label" style="color:var(--accent)">Welcome</span></div>
+      <div class="ob-line" style="background:var(--accent-border)"></div>
+      <div class="ob-step"><div class="ob-dot done">✓</div><span class="ob-step-label" style="color:var(--accent)">Profile</span></div>
+      <div class="ob-line" style="background:var(--accent-border)"></div>
+      <div class="ob-step active"><div class="ob-dot active">3</div><span class="ob-step-label">Introduce</span></div>
+      <div class="ob-line"></div>
+      <div class="ob-step"><div class="ob-dot">4</div><span class="ob-step-label">Start</span></div>
+    </div>
+    <div class="ob-card">
+      <div class="ob-prog"><div class="ob-prog-seg done"></div><div class="ob-prog-seg done"></div><div class="ob-prog-seg done"></div><div class="ob-prog-seg"></div></div>
+      <div class="ob-title">Say hello</div>
+      <div class="ob-sub">Drop a quick intro in the community. People are waiting to meet you.</div>
+      <div class="ob-intro-box">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:13px;">🦁</div>
+          <span style="font-size:13px;font-weight:500;">Chidi O.</span>
+          <span style="font-size:11px;color:var(--text3);">Lagos · Pro member</span>
+        </div>
+        <textarea class="ob-intro-ta" rows="4" placeholder="Hey everyone! I'm Chidi from Lagos...">Hey everyone! I'm Chidi from Lagos. I've been in tech for 2 years and I'm here to build a proper automation income. Starting from zero but I'm fully committed. Let's go 🔥</textarea>
+      </div>
+      <div class="ob-hint">Posts to #general automatically. You can skip and do it later.</div>
+      <button class="ob-btn" onclick="showScreen('ob4', document.querySelectorAll('.snav-btn')[6])">Post intro and continue →</button>
+      <button class="ob-skip" onclick="showScreen('ob4', document.querySelectorAll('.snav-btn')[6])">Skip for now</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 7: START LEARNING =================== -->
+<div class="screen" id="screen-ob4">
+  <div class="ob-page">
+    <div class="ob-steps">
+      <div class="ob-step"><div class="ob-dot done">✓</div><span class="ob-step-label" style="color:var(--accent)">Welcome</span></div>
+      <div class="ob-line" style="background:var(--accent-border)"></div>
+      <div class="ob-step"><div class="ob-dot done">✓</div><span class="ob-step-label" style="color:var(--accent)">Profile</span></div>
+      <div class="ob-line" style="background:var(--accent-border)"></div>
+      <div class="ob-step"><div class="ob-dot done">✓</div><span class="ob-step-label" style="color:var(--accent)">Introduce</span></div>
+      <div class="ob-line" style="background:var(--accent-border)"></div>
+      <div class="ob-step active"><div class="ob-dot active">4</div><span class="ob-step-label">Start</span></div>
+    </div>
+    <div class="ob-card">
+      <div class="ob-prog"><div class="ob-prog-seg done"></div><div class="ob-prog-seg done"></div><div class="ob-prog-seg done"></div><div class="ob-prog-seg done"></div></div>
+      <div class="ob-success-icon">🦁</div>
+      <div class="ob-title">You're all set.</div>
+      <div class="ob-sub" style="margin-bottom:1.75rem;">Your profile is live. The community can see you. Now go start Module 1 — it's the foundation everything else builds on.</div>
+      <div class="ob-next-ep">
+        <div class="ob-ep-icon">▶️</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;">Module 1 — AI & LLMs</div>
+          <div style="font-size:12px;color:var(--text2);">Episode 1.1 · 12 mins · Start here</div>
+        </div>
+      </div>
+      <button class="ob-btn" onclick="showScreen('dashboard', document.querySelectorAll('.snav-btn')[7])">Go to my dashboard →</button>
+      <button class="ob-btn-secondary" onclick="showScreen('dashboard', document.querySelectorAll('.snav-btn')[7])">Browse the community first</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 8: DASHBOARD =================== -->
+<div class="screen" id="screen-dashboard">
+  <div class="app-wrap">
+    <div class="sidebar">
+      <div class="sb-logo">Auto<span>Stack</span></div>
+      <div class="sb-item active"><span class="sb-icon">⊞</span> Dashboard</div>
+      <div class="sb-item"><span class="sb-icon">▶</span> Course</div>
+      <div class="sb-item" onclick="showScreen('community', document.querySelectorAll('.snav-btn')[8])"><span class="sb-icon">💬</span> Community <div class="sb-notif">3</div></div>
+      <div class="sb-item"><span class="sb-icon">🏆</span> Leaderboard</div>
+      <div class="sb-item"><span class="sb-icon">⭐</span> Wins</div>
+      <div class="sb-item"><span class="sb-icon">🚀</span> Boost my post</div>
+      <div class="sb-sec">Account</div>
+      <div class="sb-item"><span class="sb-icon">👤</span> Profile</div>
+      <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
+      <div class="sb-item"><span class="sb-icon">🔔</span> Notifications</div>
+    </div>
+    <div class="main-content">
+      <div class="dash-home">
+        <div class="dash-greeting">Good morning, Chidi 👋</div>
+        <div class="dash-sub"><span class="tier-badge">Pro member</span> · Month 2 · Lagos</div>
+        <div class="dash-stats">
+          <div class="ds-card"><div class="ds-label">Earnings this month</div><div class="ds-val green">₦180k</div></div>
+          <div class="ds-card"><div class="ds-label">Leaderboard rank</div><div class="ds-val">🥇 #1</div></div>
+          <div class="ds-card"><div class="ds-label">Episodes done</div><div class="ds-val">8 / 24</div></div>
+          <div class="ds-card"><div class="ds-label">Deals closed</div><div class="ds-val">9</div></div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="d-card">
+              <div class="d-card-title">Course progress <span class="d-card-link">Continue →</span></div>
+              <div class="prog-wrap"><div class="prog-lbl"><span>Module 1 — AI & LLMs</span><span style="color:var(--accent)">100%</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div></div>
+              <div class="prog-wrap"><div class="prog-lbl"><span>Module 2 — Lead machine</span><span style="color:var(--accent)">100%</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div></div>
+              <div class="prog-wrap"><div class="prog-lbl"><span>Module 3 — Building systems</span><span style="color:#5DB6FF">50%</span></div><div class="prog-bar"><div class="prog-fill" style="width:50%;background:#5DB6FF"></div></div></div>
+              <div class="prog-wrap"><div class="prog-lbl"><span style="color:var(--text3)">Module 4 — Vibe coding</span><span style="color:var(--text3)">Locked</span></div><div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div></div>
+            </div>
+            <div class="d-card">
+              <div class="d-card-title">Up next in Module 3</div>
+              <div class="ep-item"><div class="ep-n">3.1</div><div class="ep-title">Intro to automation tools</div><span class="ep-status ep-done">Done</span></div>
+              <div class="ep-item"><div class="ep-n">3.2</div><div class="ep-title">Building your first n8n workflow</div><span class="ep-status ep-now">Watching</span></div>
+              <div class="ep-item"><div class="ep-n">3.3</div><div class="ep-title">CRM automation for clients</div><span class="ep-status ep-lock">🔒 Next</span></div>
+              <div class="ep-item"><div class="ep-n">3.4</div><div class="ep-title">Building a chatbot</div><span class="ep-status ep-lock">🔒 Locked</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="d-card">
+              <div class="d-card-title">May leaderboard <span class="d-card-link">View all</span></div>
+              <div class="lb-mini"><div class="lb-mini-pos">🥇</div><div class="lb-mini-name">Chidi O. <span class="you-tag">you</span></div><div class="lb-mini-amt">₦180,000</div></div>
+              <div class="lb-mini"><div class="lb-mini-pos">🥈</div><div class="lb-mini-name">Amina K.</div><div class="lb-mini-amt">₦132,000</div></div>
+              <div class="lb-mini"><div class="lb-mini-pos">🥉</div><div class="lb-mini-name">Tunde M.</div><div class="lb-mini-amt">₦106,000</div></div>
+              <div class="lb-mini"><div class="lb-mini-pos" style="font-size:12px;color:var(--text3)">4</div><div class="lb-mini-name">Sola B.</div><div class="lb-mini-amt">₦75,000</div></div>
+              <div class="lb-mini"><div class="lb-mini-pos" style="font-size:12px;color:var(--text3)">5</div><div class="lb-mini-name">Fatima D.</div><div class="lb-mini-amt">₦51,000</div></div>
+            </div>
+            <div class="d-card">
+              <div class="d-card-title">Community activity <span class="d-card-link" onclick="showScreen('community', document.querySelectorAll('.snav-btn')[8])">Open →</span></div>
+              <div class="activity-item"><div class="act-dot"></div><div class="act-text"><strong>Tunde M.</strong> closed a ₦120,000 deal 🔥</div><div class="act-time">2h ago</div></div>
+              <div class="activity-item"><div class="act-dot" style="background:var(--text2)"></div><div class="act-text"><strong>Amina K.</strong> asked about n8n vs Make</div><div class="act-time">4h ago</div></div>
+              <div class="activity-item"><div class="act-dot" style="background:var(--text2)"></div><div class="act-text"><strong>Sola B.</strong> shared a tool recommendation</div><div class="act-time">6h ago</div></div>
+              <div class="activity-item"><div class="act-dot"></div><div class="act-text"><strong>Emeka J.</strong> dropped a ₦44,000 win</div><div class="act-time">1d ago</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SCREEN 9: COMMUNITY =================== -->
+<div class="screen" id="screen-community">
+  <div class="app-wrap">
+    <div class="sidebar">
+      <div class="sb-logo">Auto<span>Stack</span></div>
+      <div class="sb-item"><span class="sb-icon">⊞</span> Dashboard</div>
+      <div class="sb-item"><span class="sb-icon">▶</span> Course</div>
+      <div class="sb-item active"><span class="sb-icon">💬</span> <span>Community</span></div>
+      <div class="sb-item"><span class="sb-icon">🏆</span> Leaderboard</div>
+      <div class="sb-item"><span class="sb-icon">⭐</span> Wins</div>
+      <div class="sb-item"><span class="sb-icon">🚀</span> Boost my post</div>
+      <div class="sb-sec">Channels</div>
+      <div class="sb-item active"><span class="sb-icon">#</span> general</div>
+      <div class="sb-item"><span class="sb-icon">#</span> questions</div>
+      <div class="sb-item"><span class="sb-icon">#</span> tool-stack</div>
+      <div class="sb-item"><span class="sb-icon">#</span> wins <div class="sb-notif">5</div></div>
+      <div class="sb-item"><span class="sb-icon">#</span> boost-my-post</div>
+      <div class="sb-sec">Pro+</div>
+      <div class="sb-item"><span class="sb-icon">📅</span> live-sessions</div>
+      <div class="sb-item"><span class="sb-icon">👁</span> deal-reviews</div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-size:14px;font-weight:600;"># general</div>
+          <div style="font-size:12px;color:var(--text2);">247 members · Open channel</div>
+        </div>
+        <div style="font-size:12px;color:var(--text2);">🔍 Search</div>
+      </div>
+      <div style="flex:1; overflow-y:auto; padding:1.25rem 1.5rem;">
+        <div class="comm-post win">
+          <div class="cp-header"><div class="cp-av" style="background:rgba(200,245,66,0.1);color:var(--accent)">CO</div><span class="cp-name">Chidi O.</span><span class="cp-win-badge">Win 🔥</span><span class="cp-time">2h ago</span></div>
+          <div class="cp-text">Closed a restaurant in VI for a full website rebuild + automation. <strong>₦85,000</strong> upfront + ₦20,000 retainer monthly. Module 3 is literally printing money 😤</div>
+          <div class="cp-actions"><span class="cp-act">❤️ 42</span><span class="cp-act">💬 18 replies</span><span class="cp-act">🔁 Share</span></div>
+        </div>
+        <div class="comm-post">
+          <div class="cp-header"><div class="cp-av" style="background:rgba(56,130,221,0.15);color:#5DB6FF">AK</div><span class="cp-name">Amina K.</span><span class="cp-time">4h ago</span></div>
+          <div class="cp-text">Anyone using Make vs n8n for client work? I've been on Make but module 3 pushes n8n hard. Trying to decide if I should switch before getting deeper.</div>
+          <div class="cp-actions"><span class="cp-act">❤️ 8</span><span class="cp-act">💬 14 replies</span><span class="cp-act">🔁 Share</span></div>
+        </div>
+        <div class="comm-post">
+          <div class="cp-header"><div class="cp-av" style="background:rgba(239,159,39,0.15);color:#EF9F27">TM</div><span class="cp-name">Tunde M.</span><span class="cp-time">6h ago</span></div>
+          <div class="cp-text">PSA: the lead machine from module 2 is different. Set it up yesterday evening, woke up to 47 leads this morning. This is not a drill.</div>
+          <div class="cp-actions"><span class="cp-act">❤️ 61</span><span class="cp-act">💬 23 replies</span><span class="cp-act">🔁 Share</span></div>
+        </div>
+        <div class="comm-post">
+          <div class="cp-header"><div class="cp-av" style="background:rgba(200,245,66,0.08);color:var(--accent)">SB</div><span class="cp-name">Sola B.</span><span class="cp-time">1d ago</span></div>
+          <div class="cp-text">Dropped my latest journey video on Twitter — can you guys give it some love? Link in #boost-my-post 🙏 trying to grow the audience alongside the income</div>
+          <div class="cp-actions"><span class="cp-act">❤️ 24</span><span class="cp-act">💬 6 replies</span><span class="cp-act">🔁 Share</span></div>
+        </div>
+        <div class="comm-post">
+          <div class="cp-header"><div class="cp-av" style="background:rgba(173,93,177,0.15);color:#BF8CE0">EJ</div><span class="cp-name">Emeka J.</span><span class="cp-time">1d ago</span></div>
+          <div class="cp-text">Quick tool recommendation — if you're building chatbots for clients, Voiceflow is insane. Built and deployed one for a retail shop in 3 hours. Charged ₦35k. Easy money.</div>
+          <div class="cp-actions"><span class="cp-act">❤️ 33</span><span class="cp-act">💬 11 replies</span><span class="cp-act">🔁 Share</span></div>
+        </div>
+      </div>
+      <div class="comm-input-wrap">
+        <input class="comm-input" type="text" placeholder="Share something with the community...">
+        <button class="comm-post-btn">Post</button>
+      </div>
+    </div>
+    <div style="width:260px; border-left:1px solid var(--border); padding:1.25rem; overflow-y:auto; flex-shrink:0;">
+      <div class="cs-title">This month's top earners</div>
+      <div class="cs-card">
+        <div class="lb-mini" style="padding:5px 0;"><div class="lb-mini-pos">🥇</div><div class="lb-mini-name">Chidi O. <span class="you-tag">you</span></div><div class="lb-mini-amt">₦180k</div></div>
+        <div class="lb-mini" style="padding:5px 0;"><div class="lb-mini-pos">🥈</div><div class="lb-mini-name">Amina K.</div><div class="lb-mini-amt">₦132k</div></div>
+        <div class="lb-mini" style="padding:5px 0;"><div class="lb-mini-pos">🥉</div><div class="lb-mini-name">Tunde M.</div><div class="lb-mini-amt">₦106k</div></div>
+      </div>
+      <div class="cs-title" style="margin-top:1.25rem;">Online now</div>
+      <div class="cs-card">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;"><div style="width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0"></div>Chidi O.</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)"><div style="width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0"></div>Tunde M.</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)"><div style="width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0"></div>Sola B.</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)"><div style="width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0"></div>Ngozi A.</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px;">+38 members online</div>
+        </div>
+      </div>
+      <div class="cs-title" style="margin-top:1.25rem;">Next live session</div>
+      <div class="cs-card">
+        <div style="font-size:13px;font-weight:500;margin-bottom:4px;">Monthly Q&A — Pro+</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">May 25 · 7:00 PM WAT</div>
+        <button style="width:100%;padding:7px;font-size:12px;background:var(--accent-dim);border:1px solid var(--accent-border);color:var(--accent);border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;">Add to calendar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showScreen(id, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.snav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+function selectPlan(plan) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('plan-' + plan).classList.add('selected');
+  const prices = { starter: '₦25,000', pro: '₦45,000', elite: '₦90,000' };
+  const names = { starter: 'AutoStack Starter — monthly', pro: 'AutoStack Pro — monthly', elite: 'AutoStack Elite — monthly' };
+  document.querySelector('.chk-row span:first-child').textContent = names[plan];
+  document.querySelector('.chk-row span:last-child').textContent = prices[plan];
+  document.querySelectorAll('.chk-row')[1].children[1].textContent = prices[plan];
+  document.querySelector('.chk-row.total span:last-child').textContent = prices[plan];
+}
+document.querySelectorAll('.ob-av').forEach(a => {
+  a.addEventListener('click', function() {
+    document.querySelectorAll('.ob-av').forEach(x => x.classList.remove('picked'));
+    this.classList.add('picked');
+  });
+});
+document.querySelectorAll('.plan-toggle .tog-btn').forEach(b => {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.plan-toggle .tog-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
